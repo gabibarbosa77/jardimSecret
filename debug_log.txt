@@ -1,0 +1,19 @@
+=== INICIANDO CANCELAMENTO ===
+Data/Hora: 2025-11-18 14:46:53
+SESSION ID: 6
+Método: POST
+POST data: Array
+(
+    [id_pedido] => 4
+)
+
+ID Pedido: 4
+ID Usuário: 6
+Conectando ao banco...
+SQL Verificar: SELECT idCompra, idStatus FROM tb_compra WHERE idCompra = ? AND idUsuario = ?
+Número de linhas encontradas: 1
+Pedido encontrado - ID: 4, Status: 1
+SQL Cancelar: UPDATE tb_compra SET idStatus = 6 WHERE idCompra = ?
+Resultado execute: false
+ERRO execute: Cannot add or update a child row: a foreign key constraint fails (`db_jardimsecret`.`tb_compra`, CONSTRAINT `fk_compra_status` FOREIGN KEY (`idStatus`) REFERENCES `tb_statuspedido` (`idStatus`))
+

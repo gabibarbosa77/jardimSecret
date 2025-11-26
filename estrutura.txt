@@ -1,0 +1,103 @@
+CREATE TABLE `tb_carrinho` (
+  `idCarrinho` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `idProduto` int(11) NOT NULL,
+  `quantProduto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_compra` (
+  `idCompra` int(11) NOT NULL,
+  `modoPagamento` varchar(20) NOT NULL,
+  `dataCompra` datetime NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `valorTotal` decimal(10,2) NOT NULL,
+  `valorFrete` decimal(10,2) DEFAULT 0.00,
+  `valorDesconto` decimal(10,2) DEFAULT 0.00,
+  `codigoRastreio` varchar(50) DEFAULT NULL,
+  `idCupom` int(11) DEFAULT NULL,
+  `idStatus` int(11) NOT NULL,
+  `valorDescontoCupom` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `tb_itemcompra` (
+  `idItem` int(11) NOT NULL,
+  `idCompra` int(11) NOT NULL,
+  `idProduto` int(11) NOT NULL,
+  `quantProduto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_produto` (
+  `idProduto` int(11) NOT NULL,
+  `nomeProduto` varchar(40) NOT NULL,
+  `marcaProduto` varchar(40) NOT NULL,
+  `valorProduto` decimal(10,2) NOT NULL,
+  `descricaoProduto` varchar(500) NOT NULL,
+  `imagemProduto` longblob NOT NULL,
+  `tipoProduto` varchar(1000) NOT NULL,
+  `estoque` int(11) NOT NULL DEFAULT 0,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_tipoproduto` (
+  `idTipoProduto` int(11) NOT NULL,
+  `tipo` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_usuario` (
+  `id` int(11) NOT NULL,
+  `nomeCompleto` varchar(45) NOT NULL,
+  `nomeUsuario` varchar(30) NOT NULL,
+  `senhaUsuario` varchar(535) NOT NULL,
+  `telefoneUsuario` varchar(15) NOT NULL,
+  `cpfUsuario` varchar(14) NOT NULL,
+  `emailUsuario` varchar(50) NOT NULL,
+  `cepUsuario` varchar(9) NOT NULL,
+  `enderecoUsuario` varchar(55) NOT NULL,
+  `numUsuario` varchar(6) NOT NULL,
+  `bairroUsuario` varchar(15) NOT NULL,
+  `dataNasc` varchar(10) NOT NULL,
+  `tipoUsuario` varchar(300) NOT NULL,
+  `complemento` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_promocao` (
+  `idPromocao` int(11) NOT NULL,
+  `idProduto` int(11) NOT NULL,
+  `valorPromocional` decimal(10,2) NOT NULL,
+  `percentualPromocao` decimal(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_statuspedido` (
+  `idStatus` int(11) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `descricao` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tc_cupons` (
+  `id` int(11) NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
+  `tipo_desconto` enum('valor_fixo') NOT NULL,
+  `valor_desconto` decimal(10,2) NOT NULL,
+  `valor_minimo` decimal(10,2) DEFAULT 0.00,
+  `data_inicio` date NOT NULL,
+  `data_fim` date NOT NULL,
+  `usos_maximos` int(11) DEFAULT 0,
+  `usos_atuais` int(11) DEFAULT 0,
+  `status` enum('ativo','inativo') DEFAULT 'ativo'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_cartao` (
+  `id` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `numero_cartao` varchar(20) NOT NULL,
+  `nome_titular` varchar(100) NOT NULL,
+  `mes_validade` varchar(2) NOT NULL,
+  `ano_validade` varchar(4) NOT NULL,
+  `cvv` varchar(4) NOT NULL,
+  `bandeira` varchar(20) NOT NULL,
+  `apelido` varchar(50) DEFAULT NULL,
+  `principal` enum('sim','nao') DEFAULT 'nao',
+  `data_cadastro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

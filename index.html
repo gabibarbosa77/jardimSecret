@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jardim Secret - Beleza com Elegância</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+    --rosa-primario: #d4a5a5;
+    --rosa-escuro: #b87c7c;
+    --rosa-claro: #f9f0f0;
+    --destaque: #7b4c58;
+    --bege: #f8f5f0;
+    --branco: #ffffff;
+    --cinza: #495057;
+    --dourado: #d4af37;
+    --sombra: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transicao: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bege);
+    line-height: 1.6;
+    color: var(--cinza);
+}
+
+/* Header */
+header {
+    background-color: rgba(212, 165, 165, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    height: 90px;
+    color: var(--branco);
+    width: 100%;
+    box-shadow: var(--sombra);
+    transition: var(--transicao);
+}
+
+header.scrolled {
+    height: 70px;
+    background-color: rgba(212, 165, 165, 0.98);
+}
+
+header img {
+    height: 70px;
+    width: auto;
+    transition: var(--transicao);
+}
+
+header.scrolled img {
+    height: 50px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: var(--branco);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1.1rem;
+    position: relative;
+    padding: 5px 0;
+    transition: var(--transicao);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--branco);
+    transition: var(--transicao);
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    background: url('fundoInicio.jpg') center/cover no-repeat;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--branco);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(184, 124, 124, 0.7), rgba(212, 165, 165, 0.5));
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 0 20px;
+    z-index: 1;
+    animation: slideUp 1s ease-out;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--branco);
+    color: var(--rosa-primario);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transicao);
+    box-shadow: var(--sombra);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: var(--rosa-claro);
+}
+
+/* Sections */
+.section {
+    padding: 100px 10%;
+    position: relative;
+}
+
+.section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 20px;
+    color: var(--destaque);
+    position: relative;
+    display: inline-block;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--rosa-primario);
+}
+
+.section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+/* About Section */
+.about {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.about-image {
+    flex: 1;
+    min-width: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    background-color: var(--rosa-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transicao);
+}
+
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--rosa-claro);
+    color: var(--rosa-primario);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.feature-text h4 {
+    color: var(--destaque);
+    margin-bottom: 5px;
+}
+
+/* Products Section */
+.products {
+    background-color: var(--rosa-claro);
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 60px auto;
+    padding: 0 60px;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.carousel img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+    box-shadow: var(--sombra);
+    transition: var(--transicao);
+    border: 5px solid var(--branco);
+}
+
+.carousel img:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--rosa-primario);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1;
+    transition: var(--transicao);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--sombra);
+}
+
+.carousel-btn:hover {
+    background-color: var(--destaque);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+    left: 0;
+}
+
+.carousel-btn.next {
+    right: 0;
+}
+
+/* Contact Section */
+.contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--rosa-claro);
+    padding: 20px;
+    border-radius: 12px;
+    min-width: 250px;
+    transition: var(--transicao);
+}
+
+.contact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra);
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--rosa-primario);
+    color: var(--branco);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Newsletter Section */
+.newsletter {
+    background-color: var(--rosa-primario);
+    color: var(--branco);
+    padding: 80px 10%;
+    text-align: center;
+}
+
+.newsletter h2 {
+    color: var(--branco);
+    margin-bottom: 20px;
+}
+
+.newsletter h2::after {
+    background-color: var(--branco);
+}
+
+.newsletter p {
+    color: var(--branco);
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.newsletter-form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.newsletter-input {
+    flex-grow: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px 0 0 50px;
+    font-size: 1rem;
+}
+
+.newsletter-btn {
+    background: var(--destaque);
+    color: var(--branco);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 0 50px 50px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.newsletter-btn:hover {
+    background: #6a3d48;
+}
+
+/* Footer */
+footer {
+    background-color: var(--rosa-primario);
+    color: var(--branco);
+    text-align: center;
+    padding: 50px 10%;
+    margin-top: 40px;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.footer-links a {
+    color: var(--branco);
+    text-decoration: none;
+    transition: var(--transicao);
+}
+
+.footer-links a:hover {
+    color: var(--rosa-claro);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.social-links a {
+    color: var(--branco);
+    font-size: 1.5rem;
+    transition: var(--transicao);
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+    color: var(--rosa-claro);
+}
+
+.copyright {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header {
+        padding: 0 5%;
+        height: 70px;
+    }
+
+    header img {
+        height: 50px;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    .section {
+        padding: 70px 5%;
+    }
+
+    .carousel-container {
+        padding: 0 40px;
+    }
+
+    .carousel img {
+        width: 250px;
+        height: 350px;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-input {
+        border-radius: 50px;
+        margin-bottom: 10px;
+    }
+
+    .newsletter-btn {
+        border-radius: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        gap: 10px;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+
+    .hero {
+        min-height: 500px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+    }
+
+    .carousel-container {
+        padding: 0 20px;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--branco);
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.logo:hover {
+    color: var(--branco);
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 15px 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+}
+  </style>
+</head>
+<body>
+  <header id="mainHeader">
+    <a href="home.php" class="logo">
+      <i class="fas fa-leaf"></i>
+      <span>Jardim Secret</span>
+    </a>
+    <nav>
+      <a href="cadastro1.php">Cadastre-se</a>
+      <a href="login.php">Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Revele sua beleza com elegância</h1>
+      <p>Descubra a sofisticação natural em cada produto Jardim Secret</p>
+      <a href="home.php" class="btn">Conheça nossos produtos</a>
+    </div>
+  </section>
+
+  <section class="section" id="sobre">
+    <h2>Sobre a Jardim Secret</h2>
+    <div class="about">
+      <div class="about-content">
+        <p>A Jardim Secret nasceu do desejo de cultivar a beleza com sofisticação e autenticidade. Inspirada na natureza e no mistério do luxo atemporal, oferecemos produtos de maquiagem pensados para realçar sua essência.</p>
+        <p>Nossa missão é proporcionar uma experiência sensorial única em cada aplicação, com fórmulas de alta qualidade e embalagens elegantes que celebram a feminilidade em sua forma mais pura.</p>
+        
+        <div class="about-features">
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-palette"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Variedade de Cores</h4>
+              <p>Tons exclusivos para todos os estilos</p>
+            </div>
+          </div>
+          
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-spa"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Ingredientes Naturais</h4>
+              <p>Fórmulas suaves e hipoalergênicas</p>
+            </div>
+          </div>
+          
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-gem"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Embalagens Luxuosas</h4>
+              <p>Design sofisticado e atemporal</p>
+            </div>
+          </div>
+          
+          <div class="feature">
+            <div class="feature-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Feito com Amor</h4>
+              <p>Dedicado à sua autoexpressão</p>
+            </div>
+          </div>
+        </div>
+        
+        <a href="home.php" class="btn" style="margin-top: 30px;">Explorar coleção</a>
+      </div>
+      <div class="about-image">
+        <img src="imagens/fundoInicio.jpg" alt="Produtos de maquiagem Jardim Secret">
+      </div>
+    </div>
+  </section>
+
+  <section class="section products" id="produtos">
+    <h2>Produtos em Destaque</h2>
+    <p>Explore nossa seleção exclusiva de batons, bases, sombras e iluminadores, todos criados com os melhores ingredientes e design refinado para encantar desde o primeiro toque.</p>
+
+    <div class="carousel-container">
+      <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+      <div class="carousel">
+        <a href="home.php"><img src="imagens/wallpaperestudos1.png" alt="Produto 1"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos7.png" alt="Produto 2"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos2.png" alt="Produto 3"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos8.png" alt="Produto 4"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos3.png" alt="Produto 5"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos4.png" alt="Produto 6"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos5.png" alt="Produto 7"></a>
+        <a href="home.php"><img src="imagens/wallpaperestudos6.png" alt="Produto 8"></a>
+      </div>
+      <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <h2>Junte-se ao nosso Jardim</h2>
+    <p>Receba novidades, ofertas exclusivas e dicas de maquiagem diretamente no seu e-mail</p>
+    <form class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail" required>
+      <button type="submit" class="newsletter-btn">Inscrever-se</button>
+    </form>
+  </section>
+
+  <section class="section" id="contato">
+    <h2>Fale Conosco</h2>
+    <p>Entre em contato conosco através dos nossos canais preferenciais:</p>
+    
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fab fa-instagram"></i>
+        </div>
+        <div>
+          <h4>Instagram</h4>
+          <span>@jardimSecret</span>
+        </div>
+      </div>
+      
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <div>
+          <h4>WhatsApp</h4>
+          <span>(14) 99776-1369</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <img src="logo.png" alt="Logo Jardim Secret" style="height: 60px; margin-bottom: 20px;">
+      
+      <div class="footer-links">
+        <a href="politica.html">Política de privacidade</a>
+        <a href="termos.html">Termos de serviço</a>
+        <a href="#sobre">Sobre nós</a>
+        <a href="mailto:jardimsecret@gmail.com">E-mail</a>
+      </div>
+      
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+      </div>
+      
+      <p class="copyright">&copy; 2025 Jardim Secret - Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Carrossel
+    const carousel = document.querySelector('.carousel');
+    const images = document.querySelectorAll('.carousel img');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+
+    let index = 0;
+    const imageWidth = images[0].offsetWidth + 30; // Inclui o gap
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${index * imageWidth}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (index < images.length - 1) {
+        index++;
+        updateCarousel();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (index > 0) {
+        index--;
+        updateCarousel();
+      }
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
