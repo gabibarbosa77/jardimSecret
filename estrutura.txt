@@ -58,7 +58,8 @@ CREATE TABLE `tb_usuario` (
   `bairroUsuario` varchar(15) NOT NULL,
   `dataNasc` varchar(10) NOT NULL,
   `tipoUsuario` varchar(300) NOT NULL,
-  `complemento` varchar(30) NOT NULL
+  `complemento` varchar(30) NOT NULL,
+  `instrucaoEntrega` varchar(535) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `tb_promocao` (
@@ -100,4 +101,15 @@ CREATE TABLE `tb_cartao` (
   `apelido` varchar(50) DEFAULT NULL,
   `principal` enum('sim','nao') DEFAULT 'nao',
   `data_cadastro` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `tb_favoritos` (
+  `idFavorito` int(11) NOT NULL AUTO_INCREMENT,
+  `idUsuario` int(11) NOT NULL,
+  `idProduto` int(11) NOT NULL,
+  `dataAdicionado` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`idFavorito`),
+  UNIQUE KEY `usuario_produto_unico` (`idUsuario`,`idProduto`),
+  FOREIGN KEY (`idUsuario`) REFERENCES `tb_usuario`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`idProduto`) REFERENCES `tb_produto`(`idProduto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
