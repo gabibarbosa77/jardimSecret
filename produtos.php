@@ -20,6 +20,20 @@ while ($promocao = $query_promocoes->fetch_assoc()) {
     $promocoes[$promocao['idProduto']] = $promocao;
 }
 
+// Buscar favoritos do usuário atual
+$favoritosUsuario = [];
+if (isset($_SESSION['id'])) {
+    $idUsuario = $_SESSION['id'];
+    $query_favoritos = $conn->prepare("SELECT idProduto FROM tb_favoritos WHERE idUsuario = ?");
+    $query_favoritos->bind_param("i", $idUsuario);
+    $query_favoritos->execute();
+    $result_favoritos = $query_favoritos->get_result();
+    
+    while ($favorito = $result_favoritos->fetch_assoc()) {
+        $favoritosUsuario[$favorito['idProduto']] = true;
+    }
+}
+
 if (!empty($termoBusca)) {
     // Busca produtos que correspondam ao termo de busca (código existente)
     $termoLike = "%" . $conn->real_escape_string($termoBusca) . "%";
@@ -90,6 +104,7 @@ $conn->close();
         --cinza: #495057;
         --dourado: #d4af37;
         --verde: #28a745;
+        --vermelho: #dc3545;
         --sombra: 0 4px 20px rgba(0, 0, 0, 0.1);
         --transicao: all 0.3s ease;
     }
@@ -178,6 +193,59 @@ $conn->close();
         font-weight: 600;
         z-index: 2;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--cinza);
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transicao);
+        z-index: 2;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .favorite-btn:hover {
+        background: var(--branco);
+        transform: scale(1.1);
+    }
+
+    .favorite-btn.favorited {
+        color: var(--vermelho);
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .favorite-btn.favorited:hover {
+        color: var(--vermelho);
+    }
+
+    .favorite-btn .fa-heart {
+        transition: var(--transicao);
+    }
+
+    .favorite-btn:not(.favorited) .fa-heart {
+        color: var(--cinza);
+    }
+
+    .favorite-btn.favorited .fa-heart {
+        color: var(--vermelho);
+        animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
     }
 
     .product-image-container {
@@ -507,6 +575,20 @@ $conn->close();
     .no-results a:hover {
         text-decoration: underline;
     }
+
+    .read-more {
+        color: var(--rosa-primario);
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        display: inline-block;
+        transition: var(--transicao);
+    }
+
+    .read-more:hover {
+        color: var(--rosa-escuro);
+        text-decoration: underline;
+    }
 </style>
 </head>
 <body>
@@ -569,6 +651,7 @@ $conn->close();
                     $precoOriginal = floatval($produto['valorProduto']);
                     $precoPromocional = $temPromocao ? floatval($promocoes[$produto['idProduto']]['valorPromocional']) : $precoOriginal;
                     $percentualDesconto = $temPromocao ? $promocoes[$produto['idProduto']]['percentualPromocao'] : 0;
+                    $isFavorito = isset($favoritosUsuario[$produto['idProduto']]);
                     ?>
                     <div class="product-card">
                         <?php if ($temPromocao): ?>
@@ -576,6 +659,13 @@ $conn->close();
                             <i class="fas fa-tag"></i> PROMOÇÃO
                         </div>
                         <?php endif; ?>
+                        
+                        <!-- BOTÃO DE FAVORITOS -->
+                        <button class="favorite-btn <?php echo $isFavorito ? 'favorited' : ''; ?>" 
+                                data-product-id="<?php echo $produto['idProduto']; ?>"
+                                title="<?php echo $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'; ?>">
+                            <i class="fas fa-heart"></i>
+                        </button>
                         
                         <div class="product-image-container">
                             <img class="product-image" src="data:image/jpeg;base64,<?php echo base64_encode($produto['imagemProduto']); ?>" alt="<?php echo htmlspecialchars($produto['nomeProduto']); ?>">
@@ -777,6 +867,116 @@ $conn->close();
             modal.style.display = 'none';
         }
     });
+
+    // ========== FUNCIONALIDADE DE FAVORITOS ==========
+
+    // Controle dos botões de favoritos
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const isFavorited = this.classList.contains('favorited');
+            const button = this;
+            
+            // Feedback visual imediato
+            if (isFavorited) {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            } else {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
+            
+            // Fazer requisição AJAX para adicionar/remover favorito
+            const url = isFavorited ? 'removerFavorito.php' : 'adicionarFavorito.php';
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `idProduto=${productId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (isFavorited) {
+                        // Remover dos favoritos
+                        button.classList.remove('favorited');
+                        button.innerHTML = '<i class="fas fa-heart"></i>';
+                        button.setAttribute('title', 'Adicionar aos favoritos');
+                        showNotification('Produto removido dos favoritos', 'info');
+                    } else {
+                        // Adicionar aos favoritos
+                        button.classList.add('favorited');
+                        button.innerHTML = '<i class="fas fa-heart"></i>';
+                        button.setAttribute('title', 'Remover dos favoritos');
+                        showNotification('Produto adicionado aos favoritos!', 'success');
+                    }
+                } else {
+                    // Feedback visual de erro
+                    button.innerHTML = '<i class="fas fa-heart"></i>';
+                    showNotification('Erro: ' + data.message, 'error');
+                    console.error('Erro ao atualizar favoritos:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+                showNotification('Erro ao atualizar favoritos', 'error');
+            });
+        });
+    });
+
+    // Função para mostrar notificações
+    function showNotification(message, type = 'info') {
+        // Criar elemento de notificação
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        `;
+        
+        // Definir cor baseada no tipo
+        switch(type) {
+            case 'success':
+                notification.style.backgroundColor = '#28a745';
+                break;
+            case 'error':
+                notification.style.backgroundColor = '#dc3545';
+                break;
+            case 'info':
+                notification.style.backgroundColor = '#17a2b8';
+                break;
+            default:
+                notification.style.backgroundColor = '#6c757d';
+        }
+        
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Animação de entrada
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
 </script>
 </body>
 </html>
